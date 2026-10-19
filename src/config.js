@@ -55,11 +55,11 @@ export const BACKGROUND_COLORS = {
 };
 
 export const SONGS = [
-  { wav: "1_サンプルA.wav", lyrics: "1_サンプルA.json" },
-  { wav: "2_サンプルB.wav", lyrics: "2_サンプルB.json" },
-  { wav: "3_サンプルC.wav", lyrics: "3_サンプルC.json" },
-  { wav: "4_サンプルD.wav", lyrics: "4_サンプルD.json" },
-  { wav: "5_サンプルE.wav", lyrics: "5_サンプルE.json" }
+  { wav: "1_sampleA.wav", lyrics: "1_sampleA.json" },
+  { wav: "2_sampleB.wav", lyrics: "2_sampleB.json" },
+  { wav: "3_sampleC.wav", lyrics: "3_sampleC.json" },
+  { wav: "4_sampleD.wav", lyrics: "4_sampleD.json" },
+  { wav: "5_sampleE.wav", lyrics: "5_sampleE.json" }
 ];
 
 export function formatChoice(key, value) {
