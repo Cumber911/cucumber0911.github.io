@@ -18,7 +18,7 @@ const playMessage = document.querySelector("#play-message");
 // Python の http.server は public/ 以下をそのまま公開します。
 // Vite は public/ 以下をサイトのルートに公開します。
 // この分岐により、どちらの起動方法でも同じプロジェクトを使用できます。
-const assetPrefix = import.meta.env ? "" : "/public";
+const assetPrefix = "./public";
 
 const audio = new Audio();
 audio.loop = true;
