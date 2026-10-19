@@ -1,0 +1,55 @@
+/* 8種類の指定フォント。フォント本体はライセンスを確認して public/fonts に配置。 */
+@font-face { font-family: "HannariMincho"; src: url("/fonts/HannariMincho-Regular.otf") format("otf"); font-display: swap; }
+@font-face { font-family: "ShipporiMincho"; src: url("/fonts/ShipporiMinchoB1-ExtraBold.otf") format("otf"); font-display: swap; }
+@font-face { font-family: "GenEiGothicM-R"; src: url("/fonts/GenEiGothicM-R.ttf") format("ttf"); font-display: swap; }
+@font-face { font-family: "GenEiGothicM-H"; src: url("/fonts/GenEiGothicM-H.ttf") format("ttf"); font-display: swap; }
+@font-face { font-family: "syunka2"; src: url("/fonts/syunka2.ttf") format("ttf"); font-display: swap; }
+@font-face { font-family: "Tamanegi-Kaisho-Geki"; src: url("/fonts/Tamanegi-Kaisho-Geki-FreeVer-7.ttf") format("ttf"); font-display: swap; }
+@font-face { font-family: "LightNovelPOP"; src: url("/fonts/07LightNovelPOP.otf") format("otf"); font-display: swap; }
+@font-face { font-family: "DotGothic16"; src: url("/fonts/DotGothic16-Regular.ttf") format("ttf"); font-display: swap; }
+
+:root { font-family: Arial, "Yu Gothic", "Meiryo", sans-serif; color: #0b0b0b; background: #e7e7e7; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 3px solid #487be9; outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.home-screen { min-height: 100dvh; display: grid; place-items: center; padding: 30px; }
+.home-content { text-align: center; max-width: 760px; }
+.home-content h1 { font-size: clamp(24px, 3vw, 40px); line-height: 1.7; }
+.home-message { font-size: 20px; line-height: 1.8; }
+.error-text { color: #af2525; line-height: 1.7; }
+.primary-button { color: #090909; border: 4px solid #fff; background: #cecece; border-radius: 12px; padding: 9px 56px; font-size: clamp(23px, 3vw, 43px); font-weight: 800; box-shadow: 7px 7px 0 #666; cursor: pointer; }
+.primary-button:hover:not(:disabled) { background: #dedede; }
+.primary-button:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 4px 4px 0 #666; }
+.primary-button:disabled { opacity: .55; cursor: wait; }
+
+.experiment-body { background: #e7e7e7; }
+.experiment-screen { width: 100%; height: 100dvh; min-height: 550px; padding: clamp(20px, 4vh, 52px) clamp(20px, 6vw, 100px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(14px, 3vh, 30px); }
+#song-number { margin: 0; text-align: center; font-size: clamp(28px, 3vw, 44px); font-weight: 800; }
+.work-area { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: clamp(18px, 3.6vw, 64px); align-items: center; min-height: 0; }
+#preview { border: 3px solid #666; width: 100%; aspect-ratio: 16 / 9; background: white; position: relative; overflow: hidden; }
+#lyric-stage { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.lyric-group { max-width: 88%; max-height: 88%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .35em; line-height: 1.5; overflow: visible; }
+.lyric-unit { display: inline-block; white-space: pre; will-change: transform,opacity; }
+#settings { background: #fff; border: 3px solid #666; height: 100%; max-height: min(60vh, 510px); min-height: 0; overflow-y: auto; padding: 20px 24px; scrollbar-color: #888 #ddd; scrollbar-width: thin; }
+.setting-group { padding-bottom: 10px; }
+.setting-group h2 { margin: 0 0 13px; font-size: clamp(22px, 2.3vw, 32px); }
+.setting-field { border: 0; margin: 0 0 18px; padding: 0; min-width: 0; }
+.setting-field legend { font-size: clamp(16px, 1.55vw, 23px); font-weight: 800; margin-bottom: 7px; padding: 0; }
+.radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 12px; }
+.radio-grid label { display: flex; align-items: center; min-width: 0; gap: 8px; font-size: clamp(12px, 1vw, 17px); font-weight: 650; cursor: pointer; white-space: nowrap; }
+.radio-grid label input { margin: 0; width: 18px; height: 18px; accent-color: #666; flex-shrink: 0; }
+.radio-grid label.disabled-option { opacity: .3; cursor: not-allowed; }
+.experiment-footer { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+#decide { min-width: 255px; }
+#status { color: #444; font-size: 12px; min-height: 18px; }
+.play-overlay { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 12px; background: rgb(255 255 255 / .94); text-align: center; }
+.play-overlay p { color: #171717; font-weight: bold; font-size: clamp(12px, 1.15vw, 17px); }
+.play-overlay .primary-button { font-size: clamp(14px, 1.5vw, 22px); padding: 8px 16px; box-shadow: 4px 4px 0 #777; }
+@media(max-width: 920px) {
+  .experiment-screen { min-height: 720px; height: auto; }
+  .work-area { grid-template-columns: 1fr; }
+  #settings { max-height: 360px; height: 360px; }
+}
