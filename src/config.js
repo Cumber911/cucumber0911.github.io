@@ -1,6 +1,6 @@
 // 現行仕様の13項目をここで一元管理します。
 export const CHOICES = {
-  font: ["明朝1", "明朝2", "ゴシック1", "ゴシック2", "筆書1", "筆書2", "ポップ", "手書き風"],
+  font: ["明朝1", "明朝2", "ゴシック1", "ゴシック2", "筆書1", "筆書2", "ポップ", "ドット風"],
   textColor: ["黒", "白"],
   writing: ["横", "縦"],
   fontSize: [10, 16, 22],
@@ -46,7 +46,7 @@ export const FONT_FAMILIES = {
   "筆書1": '"syunka2", "syunka2", serif',
   "筆書2": '"Tamanegi-Kaisho-Geki", "Yu Mincho", serif',
   "ポップ": '"LightNovelPOP", "Yu Gothic", sans-serif',
-  "手書き風": '"DotGothic16", "Yu Gothic", cursive'
+  "ドット風": '"DotGothic16", "Yu Gothic", cursive'
 };
 
 export const BACKGROUND_COLORS = {
