@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="icon" href="data:," />
+  <title>リリックビデオ制作実験 — 実験画面</title>
+</head>
+<body class="experiment-body">
+  <main id="experiment" class="experiment-screen">
+    <h1 id="song-number">1 曲目</h1>
+    <div class="work-area">
+      <div id="preview" aria-label="リリックビデオの映像プレビュー">
+        <div id="lyric-stage"></div>
+        <div id="play-overlay" class="play-overlay" hidden>
+          <p id="play-message">準備しています…</p>
+          <button id="play-button" type="button" class="primary-button">全画面で再生開始</button>
+        </div>
+      </div>
+      <div id="settings" aria-label="リリックビデオの演出設定"></div>
+    </div>
+    <div class="experiment-footer">
+      <button id="decide" type="button" class="primary-button" disabled>決定</button>
+      <div id="status" role="status" aria-live="polite"></div>
+    </div>
+  </main>
+  <script type="module" src="/src/experiment.js"></script>
+</body>
+</html>

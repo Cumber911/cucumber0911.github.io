@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="icon" href="data:," />
+  <title>リリックビデオ制作実験</title>
+</head>
+<body>
+  <main id="home" class="home-screen">
+    <div class="home-content">
+      <h1 id="home-title">ボタンを押してください</h1>
+      <p id="home-message" class="home-message" hidden></p>
+      <button type="button" id="start-button" class="primary-button">開始</button>
+      <button type="button" id="download-button" class="primary-button" hidden>結果ダウンロード</button>
+      <p id="home-error" class="error-text" role="alert"></p>
+    </div>
+  </main>
+  <script type="module" src="/src/start.js"></script>
+</body>
+</html>
