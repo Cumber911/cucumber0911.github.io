@@ -1,12 +1,44 @@
 /* 8種類の指定フォント。フォント本体はライセンスを確認して public/fonts に配置。 */
-@font-face { font-family: "HannariMincho"; src: url("/fonts/HannariMincho-Regular.otf") format("otf"); font-display: swap; }
-@font-face { font-family: "ShipporiMincho"; src: url("/fonts/ShipporiMinchoB1-ExtraBold.otf") format("otf"); font-display: swap; }
-@font-face { font-family: "GenEiGothicM-R"; src: url("/fonts/GenEiGothicM-R.ttf") format("ttf"); font-display: swap; }
-@font-face { font-family: "GenEiGothicM-H"; src: url("/fonts/GenEiGothicM-H.ttf") format("ttf"); font-display: swap; }
-@font-face { font-family: "syunka2"; src: url("/fonts/syunka2.ttf") format("ttf"); font-display: swap; }
-@font-face { font-family: "Tamanegi-Kaisho-Geki"; src: url("/fonts/Tamanegi-Kaisho-Geki-FreeVer-7.ttf") format("ttf"); font-display: swap; }
-@font-face { font-family: "LightNovelPOP"; src: url("/fonts/07LightNovelPOP.otf") format("otf"); font-display: swap; }
-@font-face { font-family: "DotGothic16"; src: url("/fonts/DotGothic16-Regular.ttf") format("ttf"); font-display: swap; }
+@font-face {
+  font-family: "HannariMincho";
+  src: url("../public/fonts/HannariMincho-Regular.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "ShipporiMincho";
+  src: url("../public/fonts/ShipporiMinchoB1-ExtraBold.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GenEiGothicM-R";
+  src: url("../public/fonts/GenEiGothicM-R.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GenEiGothicM-H";
+  src: url("../public/fonts/GenEiGothicM-H.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "syunka2";
+  src: url("../public/fonts/syunka2.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tamanegi-Kaisho-Geki";
+  src: url("../public/fonts/Tamanegi-Kaisho-Geki-FreeVer-7.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "LightNovelPOP";
+  src: url("../public/fonts/07LightNovelPOP.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "DotGothic16";
+  src: url("../public/fonts/DotGothic16-Regular.ttf") format("truetype");
+  font-display: swap;
+}
 
 :root { font-family: Arial, "Yu Gothic", "Meiryo", sans-serif; color: #0b0b0b; background: #e7e7e7; }
 * { box-sizing: border-box; }
