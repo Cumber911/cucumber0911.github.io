@@ -1,0 +1,541 @@
+{
+  "startTime": 0,
+  "endTime": 24000,
+  "duration": 24000,
+  "phrases": [
+    {
+      "startTime": 800,
+      "endTime": 4286,
+      "words": [
+        {
+          "startTime": 800,
+          "endTime": 1604,
+          "characters": [
+            {
+              "char": "あ",
+              "startTime": 800,
+              "endTime": 1068
+            },
+            {
+              "char": "さ",
+              "startTime": 1068,
+              "endTime": 1336
+            },
+            {
+              "char": "の",
+              "startTime": 1336,
+              "endTime": 1604
+            }
+          ]
+        },
+        {
+          "startTime": 1604,
+          "endTime": 2677,
+          "characters": [
+            {
+              "char": "ひ",
+              "startTime": 1604,
+              "endTime": 1872
+            },
+            {
+              "char": "か",
+              "startTime": 1872,
+              "endTime": 2140
+            },
+            {
+              "char": "り",
+              "startTime": 2140,
+              "endTime": 2409
+            },
+            {
+              "char": "が",
+              "startTime": 2409,
+              "endTime": 2677
+            }
+          ]
+        },
+        {
+          "startTime": 2677,
+          "endTime": 4286,
+          "characters": [
+            {
+              "char": "ま",
+              "startTime": 2677,
+              "endTime": 2945
+            },
+            {
+              "char": "ど",
+              "startTime": 2945,
+              "endTime": 3213
+            },
+            {
+              "char": "に",
+              "startTime": 3213,
+              "endTime": 3482
+            },
+            {
+              "char": "と",
+              "startTime": 3482,
+              "endTime": 3750
+            },
+            {
+              "char": "ど",
+              "startTime": 3750,
+              "endTime": 4018
+            },
+            {
+              "char": "く",
+              "startTime": 4018,
+              "endTime": 4286
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startTime": 4466,
+      "endTime": 7953,
+      "words": [
+        {
+          "startTime": 4466,
+          "endTime": 5539,
+          "characters": [
+            {
+              "char": "と",
+              "startTime": 4466,
+              "endTime": 4734
+            },
+            {
+              "char": "お",
+              "startTime": 4734,
+              "endTime": 5002
+            },
+            {
+              "char": "く",
+              "startTime": 5002,
+              "endTime": 5271
+            },
+            {
+              "char": "の",
+              "startTime": 5271,
+              "endTime": 5539
+            }
+          ]
+        },
+        {
+          "startTime": 5539,
+          "endTime": 6612,
+          "characters": [
+            {
+              "char": "そ",
+              "startTime": 5539,
+              "endTime": 5807
+            },
+            {
+              "char": "ら",
+              "startTime": 5807,
+              "endTime": 6076
+            },
+            {
+              "char": "に",
+              "startTime": 6076,
+              "endTime": 6344
+            },
+            {
+              "char": "は",
+              "startTime": 6344,
+              "endTime": 6612
+            }
+          ]
+        },
+        {
+          "startTime": 6612,
+          "endTime": 7953,
+          "characters": [
+            {
+              "char": "く",
+              "startTime": 6612,
+              "endTime": 6880
+            },
+            {
+              "char": "も",
+              "startTime": 6880,
+              "endTime": 7148
+            },
+            {
+              "char": "が",
+              "startTime": 7148,
+              "endTime": 7417
+            },
+            {
+              "char": "あ",
+              "startTime": 7417,
+              "endTime": 7685
+            },
+            {
+              "char": "る",
+              "startTime": 7685,
+              "endTime": 7953
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startTime": 8133,
+      "endTime": 11620,
+      "words": [
+        {
+          "startTime": 8133,
+          "endTime": 9206,
+          "characters": [
+            {
+              "char": "ゆ",
+              "startTime": 8133,
+              "endTime": 8401
+            },
+            {
+              "char": "っ",
+              "startTime": 8401,
+              "endTime": 8670
+            },
+            {
+              "char": "く",
+              "startTime": 8670,
+              "endTime": 8938
+            },
+            {
+              "char": "り",
+              "startTime": 8938,
+              "endTime": 9206
+            }
+          ]
+        },
+        {
+          "startTime": 9206,
+          "endTime": 10279,
+          "characters": [
+            {
+              "char": "あ",
+              "startTime": 9206,
+              "endTime": 9474
+            },
+            {
+              "char": "る",
+              "startTime": 9474,
+              "endTime": 9742
+            },
+            {
+              "char": "い",
+              "startTime": 9742,
+              "endTime": 10011
+            },
+            {
+              "char": "た",
+              "startTime": 10011,
+              "endTime": 10279
+            }
+          ]
+        },
+        {
+          "startTime": 10279,
+          "endTime": 11620,
+          "characters": [
+            {
+              "char": "み",
+              "startTime": 10279,
+              "endTime": 10547
+            },
+            {
+              "char": "ち",
+              "startTime": 10547,
+              "endTime": 10815
+            },
+            {
+              "char": "の",
+              "startTime": 10815,
+              "endTime": 11084
+            },
+            {
+              "char": "う",
+              "startTime": 11084,
+              "endTime": 11352
+            },
+            {
+              "char": "え",
+              "startTime": 11352,
+              "endTime": 11620
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startTime": 11800,
+      "endTime": 15286,
+      "words": [
+        {
+          "startTime": 11800,
+          "endTime": 12873,
+          "characters": [
+            {
+              "char": "ち",
+              "startTime": 11800,
+              "endTime": 12068
+            },
+            {
+              "char": "い",
+              "startTime": 12068,
+              "endTime": 12336
+            },
+            {
+              "char": "さ",
+              "startTime": 12336,
+              "endTime": 12605
+            },
+            {
+              "char": "な",
+              "startTime": 12605,
+              "endTime": 12873
+            }
+          ]
+        },
+        {
+          "startTime": 12873,
+          "endTime": 13945,
+          "characters": [
+            {
+              "char": "き",
+              "startTime": 12873,
+              "endTime": 13141
+            },
+            {
+              "char": "ぼ",
+              "startTime": 13141,
+              "endTime": 13409
+            },
+            {
+              "char": "う",
+              "startTime": 13409,
+              "endTime": 13677
+            },
+            {
+              "char": "を",
+              "startTime": 13677,
+              "endTime": 13945
+            }
+          ]
+        },
+        {
+          "startTime": 13945,
+          "endTime": 15286,
+          "characters": [
+            {
+              "char": "み",
+              "startTime": 13945,
+              "endTime": 14213
+            },
+            {
+              "char": "つ",
+              "startTime": 14213,
+              "endTime": 14481
+            },
+            {
+              "char": "け",
+              "startTime": 14481,
+              "endTime": 14750
+            },
+            {
+              "char": "た",
+              "startTime": 14750,
+              "endTime": 15018
+            },
+            {
+              "char": "よ",
+              "startTime": 15018,
+              "endTime": 15286
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startTime": 15466,
+      "endTime": 18953,
+      "words": [
+        {
+          "startTime": 15466,
+          "endTime": 16539,
+          "characters": [
+            {
+              "char": "き",
+              "startTime": 15466,
+              "endTime": 15734
+            },
+            {
+              "char": "ょ",
+              "startTime": 15734,
+              "endTime": 16002
+            },
+            {
+              "char": "う",
+              "startTime": 16002,
+              "endTime": 16271
+            },
+            {
+              "char": "の",
+              "startTime": 16271,
+              "endTime": 16539
+            }
+          ]
+        },
+        {
+          "startTime": 16539,
+          "endTime": 17612,
+          "characters": [
+            {
+              "char": "お",
+              "startTime": 16539,
+              "endTime": 16807
+            },
+            {
+              "char": "も",
+              "startTime": 16807,
+              "endTime": 17076
+            },
+            {
+              "char": "い",
+              "startTime": 17076,
+              "endTime": 17344
+            },
+            {
+              "char": "を",
+              "startTime": 17344,
+              "endTime": 17612
+            }
+          ]
+        },
+        {
+          "startTime": 17612,
+          "endTime": 18953,
+          "characters": [
+            {
+              "char": "か",
+              "startTime": 17612,
+              "endTime": 17880
+            },
+            {
+              "char": "さ",
+              "startTime": 17880,
+              "endTime": 18148
+            },
+            {
+              "char": "ね",
+              "startTime": 18148,
+              "endTime": 18417
+            },
+            {
+              "char": "て",
+              "startTime": 18417,
+              "endTime": 18685
+            },
+            {
+              "char": "く",
+              "startTime": 18685,
+              "endTime": 18953
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startTime": 19133,
+      "endTime": 22620,
+      "words": [
+        {
+          "startTime": 19133,
+          "endTime": 20206,
+          "characters": [
+            {
+              "char": "あ",
+              "startTime": 19133,
+              "endTime": 19401
+            },
+            {
+              "char": "し",
+              "startTime": 19401,
+              "endTime": 19670
+            },
+            {
+              "char": "た",
+              "startTime": 19670,
+              "endTime": 19938
+            },
+            {
+              "char": "へ",
+              "startTime": 19938,
+              "endTime": 20206
+            }
+          ]
+        },
+        {
+          "startTime": 20206,
+          "endTime": 21279,
+          "characters": [
+            {
+              "char": "や",
+              "startTime": 20206,
+              "endTime": 20474
+            },
+            {
+              "char": "さ",
+              "startTime": 20474,
+              "endTime": 20742
+            },
+            {
+              "char": "し",
+              "startTime": 20742,
+              "endTime": 21011
+            },
+            {
+              "char": "く",
+              "startTime": 21011,
+              "endTime": 21279
+            }
+          ]
+        },
+        {
+          "startTime": 21279,
+          "endTime": 22620,
+          "characters": [
+            {
+              "char": "す",
+              "startTime": 21279,
+              "endTime": 21547
+            },
+            {
+              "char": "す",
+              "startTime": 21547,
+              "endTime": 21815
+            },
+            {
+              "char": "ん",
+              "startTime": 21815,
+              "endTime": 22084
+            },
+            {
+              "char": "で",
+              "startTime": 22084,
+              "endTime": 22352
+            },
+            {
+              "char": "く",
+              "startTime": 22352,
+              "endTime": 22620
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
