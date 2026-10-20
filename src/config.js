@@ -3,7 +3,7 @@ export const CHOICES = {
   font: ["明朝1", "明朝2", "ゴシック1", "ゴシック2", "筆書1", "筆書2", "ポップ", "ドット風"],
   textColor: ["黒", "白"],
   writing: ["横", "縦"],
-  fontSize: [10, 16, 22],
+  fontSize: [12, 18, 24, 30],
   jitter: [0, 10, 20, 30, 40],
   split: ["文", "単語", "文字"],
   movement: ["無", "有"],
