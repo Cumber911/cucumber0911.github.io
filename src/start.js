@@ -10,18 +10,27 @@ const error = document.querySelector("#home-error");
 let popup = null;
 let sessionId = localStorage.getItem(CURRENT_SESSION_KEY);
 
-function showFinished(id) {
+function showFinished(id, revisited = false) {
   const results = readResults(id);
   if (results.length !== 5) return;
-  homeTitle.textContent = "以上で終了となります。";
-  homeMessage.textContent = "以下のボタンから結果をダウンロードし、送信してください。ダウンロード後はウィンドウを閉じてかまいません。";
+
+  homeTitle.textContent = revisited
+    ? "すでに回答完了しています。再度回答しますか？"
+    : "以上で終了となります。";
+
+  homeMessage.textContent =
+    "以下のボタンから結果をダウンロードし、送信してください。" +
+    "再度回答する場合は、先に今回の結果をダウンロードしてください。";
+
   homeMessage.hidden = false;
   startButton.hidden = true;
   downloadButton.hidden = false;
+  restartButton.hidden = false;
   error.textContent = "";
 }
 
-if (sessionId) showFinished(sessionId);
+// URLを開いた時点で回答済みなら、再回答の案内を表示
+if (sessionId) showFinished(sessionId, true);
 
 startButton.addEventListener("click", () => {
   error.textContent = "";
@@ -71,4 +80,21 @@ window.addEventListener("message", event => {
 // 子ウィンドウが postMessage する直前に閉じても、保存済みの結果から復旧。
 window.addEventListener("storage", event => {
   if (sessionId && event.key === storageKey(sessionId)) showFinished(sessionId);
+});
+
+restartButton.addEventListener("click", () => {
+  // 現在の回答との紐づけを解除する
+  localStorage.removeItem(CURRENT_SESSION_KEY);
+  sessionId = null;
+  popup = null;
+
+  // 初期画面へ戻す
+  homeTitle.textContent = "ボタンを押してください";
+  homeMessage.textContent = "";
+  homeMessage.hidden = true;
+
+  startButton.hidden = false;
+  downloadButton.hidden = true;
+  restartButton.hidden = true;
+  error.textContent = "";
 });
