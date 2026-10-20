@@ -4,6 +4,7 @@ const homeTitle = document.querySelector("#home-title");
 const homeMessage = document.querySelector("#home-message");
 const startButton = document.querySelector("#start-button");
 const downloadButton = document.querySelector("#download-button");
+const restartButton = document.querySelector("#restart-button");
 const error = document.querySelector("#home-error");
 
 let popup = null;
