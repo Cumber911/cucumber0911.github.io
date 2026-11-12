@@ -18,8 +18,9 @@ function showFinished(id, revisited = false) {
     : "以上で終了となります。";
 
   homeMessage.textContent =
-    "以下のボタンから結果をダウンロードし、送信してください。" +
-    "再度回答する場合は、先に今回の結果をダウンロードしてください。";
+    "以下のボタンから結果のテキストファイルをダウンロードし、DiscordのDMへ送信してください。" +
+    "再度回答する場合は、先に今回の結果をダウンロードしてください。"+
+    "（結果のテキストファイルは「lyric_experiment」から始まるファイル名です）";
 
   homeMessage.hidden = false;
   startButton.hidden = true;
