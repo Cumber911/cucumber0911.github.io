@@ -8,9 +8,30 @@
   <title>リリックビデオ制作実験 — 実験画面</title>
 </head>
 <body class="experiment-body">
-  <main id="experiment" class="experiment-screen">
-    <h1 id="song-number">1 曲目</h1>
-    <div class="work-area">
+  <main id="experiment" class="experiment-screen" data-view="loading" hidden>
+    <h1 id="song-number" tabindex="-1">実験の手順について</h1>
+    <section id="experiment-procedure" aria-labelledby="song-number" hidden>
+      <p class="procedure-duration">所要時間は<strong>約30分</strong>です。</p>
+      <ol class="procedure-flow">
+        <li>
+          <strong>テスト</strong>
+          <p>音楽なしで、文字の動きや色などの設定を試します。</p>
+        </li>
+        <li>
+          <strong>動画作成</strong>
+          <p>5曲を1曲ずつ聴き、曲に合うように歌詞の見せ方を調整します。（項目の初期値はランダム）</p>
+        </li>
+        <li>
+          <strong>動画評価</strong>
+          <p>作成した動画を1曲ずつ見返し、楽曲と動画について感じた印象や感想を入力します。</p>
+        </li>
+        <li>
+          <strong>その他の質問</strong>
+          <p>動画制作の経験や、アプリの使いやすさなどについて回答します。</p>
+        </li>
+      </ol>
+    </section>
+    <div id="work-area" class="work-area">
       <div id="preview" aria-label="リリックビデオの映像プレビュー">
         <div id="lyric-stage"></div>
         <div id="play-overlay" class="play-overlay" hidden>
@@ -20,7 +41,45 @@
       </div>
       <div id="settings" aria-label="リリックビデオの演出設定"></div>
     </div>
+    <p id="review-intro" hidden>次に楽曲・作成した動画に対しての印象や感想をお聞きします</p>
+
     <div class="experiment-footer">
+      <label id="impression-field" class="response-field" for="impression" hidden>
+        楽曲と作成した動画に対して感じる印象や感想（自由記述）
+        <textarea id="impression" rows="3"></textarea>
+      </label>
+      <form id="survey" class="survey-form" hidden>
+        <fieldset class="setting-field">
+          <legend>動画制作の経験</legend>
+          <div class="survey-options">
+            <label><input type="radio" name="videoExperience" value="頻繁にある" required> 頻繁にある</label>
+            <label><input type="radio" name="videoExperience" value="数回ある"> 数回ある</label>
+            <label><input type="radio" name="videoExperience" value="ない"> ない</label>
+          </div>
+        </fieldset>
+        <fieldset class="setting-field">
+          <legend>MV・リリックビデオ制作の経験</legend>
+          <div class="survey-options">
+            <label><input type="radio" name="lyricVideoExperience" value="ある" required> ある</label>
+            <label><input type="radio" name="lyricVideoExperience" value="ない"> ない</label>
+          </div>
+        </fieldset>
+        <fieldset class="setting-field">
+          <legend>本実験で使用したアプリの動画の作りやすさ（1〜5点）</legend>
+          <div class="survey-options">
+            <label><input type="radio" name="easeOfUse" value="1" required> 1点</label>
+            <label><input type="radio" name="easeOfUse" value="2"> 2点</label>
+            <label><input type="radio" name="easeOfUse" value="3"> 3点</label>
+            <label><input type="radio" name="easeOfUse" value="4"> 4点</label>
+            <label><input type="radio" name="easeOfUse" value="5"> 5点</label>
+          </div>
+        </fieldset>
+        <label class="response-field">
+          実験全体を通しての感想
+          <textarea name="comments" rows="4"></textarea>
+        </label>
+        <button type="submit" class="primary-button">終了</button>
+      </form>
       <button id="decide" type="button" class="primary-button" disabled>決定</button>
       <div id="status" role="status" aria-live="polite"></div>
     </div>
