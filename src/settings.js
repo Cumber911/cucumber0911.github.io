@@ -1,4 +1,4 @@
-import { CHOICES, GROUPS, LABELS, formatChoice, normaliseSettings } from "./config.js";
+import { CHOICES, GROUPS, LABELS, formatChoice, normaliseSettings } from "./experiment-settings.js";
 
 // ラジオボタンを一度だけ生成し、値の変更時は必要な属性だけを更新します。
 export function createSettingsPanel(container, initial, onChange) {
@@ -17,6 +17,7 @@ export function createSettingsPanel(container, initial, onChange) {
       const fieldset = document.createElement("fieldset");
       fieldset.className = "setting-field";
       fieldset.dataset.setting = key;
+      fieldset.classList.toggle("setting-subfield", key === "rotationEasing");
       const legend = document.createElement("legend");
       legend.textContent = LABELS[key];
       fieldset.append(legend);
@@ -55,7 +56,8 @@ export function createSettingsPanel(container, initial, onChange) {
     for (const [key, entries] of Object.entries(radios)) {
       for (const { radio, value, label } of entries) {
         const disabled =
-          ((key === "direction" || key === "easing") && settings.movement === "無") ||
+          ((key === "direction" || key === "easing") && settings.movement === "なし") ||
+          (key === "rotationEasing" && settings.rotation === "なし") ||
           (key === "background" && value === settings.textColor);
         radio.checked = settings[key] === value;
         radio.disabled = disabled;

@@ -1,4 +1,4 @@
-import { CURRENT_SESSION_KEY, downloadResults, readResults, storageKey } from "./results.js";
+import { CURRENT_SESSION_KEY, downloadResults, isSessionFinished, readSession, storageKey } from "./results.js";
 
 const homeTitle = document.querySelector("#home-title");
 const homeMessage = document.querySelector("#home-message");
@@ -11,8 +11,7 @@ let popup = null;
 let sessionId = localStorage.getItem(CURRENT_SESSION_KEY);
 
 function showFinished(id, revisited = false) {
-  const results = readResults(id);
-  if (results.length !== 5) return;
+  if (!isSessionFinished(readSession(id))) return;
 
   homeTitle.textContent = revisited
     ? "すでに回答完了しています。再度回答しますか？"
@@ -34,11 +33,9 @@ if (sessionId) showFinished(sessionId, true);
 
 startButton.addEventListener("click", () => {
   error.textContent = "";
-  const id = crypto.randomUUID();
-  // 開始時に古い実験結果とは切り離します。
+  const id = sessionId ?? crypto.randomUUID();
   sessionId = id;
   localStorage.setItem(CURRENT_SESSION_KEY, id);
-  localStorage.removeItem(storageKey(id));
 
   const screenWidth = Math.max(screen.availWidth || 1200, 960);
   const screenHeight = Math.max(screen.availHeight || 800, 680);
@@ -47,23 +44,23 @@ startButton.addEventListener("click", () => {
   popup = window.open(url.href, "_blank", `popup=yes,width=${screenWidth},height=${screenHeight}`);
 
   if (!popup) {
-    error.textContent = "新しいウィンドウがブロックされました。ポップアップを許可して、もう一度「開始」を押してください。";
+    window.location.assign(url.href);
     return;
   }
   popup.focus();
   homeTitle.textContent = "実験画面を開きました";
-  homeMessage.textContent = "新しいウィンドウで5曲の操作を進めてください。完了すると、この画面に結果ダウンロードが表示されます。";
+  homeMessage.textContent = "新しいウィンドウで実験を進めてください。全体の質問まで完了すると、この画面に結果ダウンロードが表示されます。";
   homeMessage.hidden = false;
   startButton.hidden = true;
 });
 
 downloadButton.addEventListener("click", () => {
-  const results = readResults(sessionId);
-  if (results.length !== 5) {
-    error.textContent = "5曲分の実験結果がそろっていません。";
+  const session = readSession(sessionId);
+  if (!isSessionFinished(session)) {
+    error.textContent = "実験の回答が完了していません。";
     return;
   }
-  downloadResults(sessionId, results);
+  downloadResults(sessionId, session);
 });
 
 window.addEventListener("message", event => {
@@ -71,9 +68,6 @@ window.addEventListener("message", event => {
   if (!popup || event.source !== popup) return;
   if (event.data?.type !== "EXPERIMENT_FINISHED") return;
   if (event.data.sessionId !== sessionId) return;
-  if (!Array.isArray(event.data.results) || event.data.results.length !== 5) return;
-  // localStorage へも保存し、ページ更新後もダウンロード可能に。
-  localStorage.setItem(storageKey(sessionId), JSON.stringify(event.data.results));
   showFinished(sessionId);
 });
 

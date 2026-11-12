@@ -1,195 +1,306 @@
-import { SONGS, createInitialSettings } from "./config.js";
+import { SONGS } from "./config.js";
+import { createInitialSettings } from "./experiment-settings.js";
 import { createSettingsPanel } from "./settings.js";
-import { loadLyrics, getLyricsEngine } from "./lyrics.js";
+import { loadLyrics } from "./lyrics.js";
 import { createRenderer } from "./renderer.js";
-import { CURRENT_SESSION_KEY, readResults, storeResults } from "./results.js";
+import { CURRENT_SESSION_KEY, isSessionFinished, readSession, storeSession } from "./results.js";
 
 const sessionId = new URLSearchParams(location.search).get("session");
+const screen = document.querySelector("#experiment");
+const workArea = document.querySelector("#work-area");
 const preview = document.querySelector("#preview");
-const stage = document.querySelector("#lyric-stage");
 const settingsContainer = document.querySelector("#settings");
-const songNumber = document.querySelector("#song-number");
+const title = document.querySelector("#song-number");
 const decideButton = document.querySelector("#decide");
 const status = document.querySelector("#status");
 const overlay = document.querySelector("#play-overlay");
 const playButton = document.querySelector("#play-button");
 const playMessage = document.querySelector("#play-message");
+const procedure = document.querySelector("#experiment-procedure");
+const intro = document.querySelector("#review-intro");
+const impressionField = document.querySelector("#impression-field");
+const impression = document.querySelector("#impression");
+const survey = document.querySelector("#survey");
 
-// Python の http.server は public/ 以下をそのまま公開します。
-// Vite は public/ 以下をサイトのルートに公開します。
-// この分岐により、どちらの起動方法でも同じプロジェクトを使用できます。
 const assetPrefix = "./public";
-
 const audio = new Audio();
 audio.loop = true;
 audio.preload = "auto";
-const renderer = createRenderer(preview, stage);
+const renderer = createRenderer(preview, document.querySelector("#lyric-stage"));
+const session = readSession(sessionId);
+const loadedLyrics = new Map();
 
-let songIndex = 0;
-let settings = null;
-let initialSettings = null;
+let view = "loading";
+let settings;
+let initialSettings;
 let phrases = [];
-let frameId = 0;
-let changing = false;
-let finished = false;
 let trackReady = false;
-let renderEpoch = 0;
-const results = sessionId ? readResults(sessionId) : [];
+let loadingFailed = false;
+let practiceStart = 0;
+let frameId;
 
-function setStatus(message) { status.textContent = message; }
+function shuffleSongs() {
+  const songs = [...SONGS];
+  for (let index = songs.length - 1; index > 0; index -= 1) {
+    const other = Math.floor(Math.random() * (index + 1));
+    [songs[index], songs[other]] = [songs[other], songs[index]];
+  }
+  return songs;
+}
 
-function renderLoop() {
-  if (!finished && trackReady) {
+function practicePhrase(index, startTime, words) {
+  const id = `test${index}`;
+  let cursor = startTime;
+  return {
+    id,
+    startTime,
+    endTime: startTime + 3500,
+    words: words.map((text, wordIndex) => {
+      const wordId = `${id}w${wordIndex}`;
+      const wordStart = cursor;
+      const characters = Array.from(text, (char, charIndex) => {
+        const character = { id: `${wordId}c${charIndex}`, text: char, startTime: cursor };
+        cursor += 130;
+        return character;
+      });
+      return { id: wordId, startTime: wordStart, characters };
+    })
+  };
+}
+
+function renderLoop(now) {
+  if (view === "practice") {
+    renderer.update((now - practiceStart) % 8000, phrases, settings);
+  } else if (trackReady) {
     renderer.update(audio.currentTime * 1000, phrases, settings);
   }
   frameId = requestAnimationFrame(renderLoop);
 }
 
+function showView(next, heading, buttonLabel = "") {
+  view = next;
+  trackReady = false;
+  loadingFailed = false;
+  audio.pause();
+  renderer.clear();
+  screen.dataset.view = next;
+  screen.hidden = false;
+  title.textContent = heading;
+  title.hidden = !heading;
+  workArea.hidden = !["practice", "edit", "review"].includes(next);
+  settingsContainer.hidden = !["practice", "edit"].includes(next);
+  procedure.hidden = next !== "procedure";
+  intro.hidden = next !== "intro";
+  impressionField.hidden = next !== "review";
+  survey.hidden = next !== "survey";
+  decideButton.hidden = !buttonLabel;
+  decideButton.textContent = buttonLabel;
+  decideButton.disabled = false;
+  overlay.hidden = true;
+  status.textContent = "";
+  window.scrollTo(0, 0);
+}
+
+function editSettings(start) {
+  initialSettings = start;
+  settings = { ...start };
+  createSettingsPanel(settingsContainer, settings, next => { settings = next; });
+}
+
+function showPractice() {
+  showView("practice", "テスト画面", "本番へ");
+  editSettings({
+    ...createInitialSettings(),
+    textColor: "黒", background: "白", split: "文節", jitter: 0,
+    movement: "あり", direction: "左から", easing: "あり", opacity: 100, scale: 100,
+    rotation: "なし", rotationEasing: "なし"
+  });
+  phrases = [
+    practicePhrase(0, 300, ["文字の", "動きや", "色を", "変えてみよう"]),
+    practicePhrase(1, 4200, ["設定を", "選ぶと", "映像に", "反映されます"])
+  ];
+  practiceStart = performance.now();
+  renderer.prepare(phrases, settings);
+}
+
 async function tryFullscreen() {
   if (!document.fullscreenElement) {
     try { await document.documentElement.requestFullscreen(); }
-    catch { /* ブラウザによって自動全画面化は拒否されます */ }
+    catch { /* 全画面化できない環境でも操作を続けられる。 */ }
   }
 }
 
-function promptForPlayback(message) {
+function promptForPlayback(message, label) {
   playMessage.textContent = message;
+  playButton.textContent = label;
+  playButton.disabled = false;
   overlay.hidden = false;
   decideButton.disabled = true;
 }
 
 async function playCurrentSong() {
   if (!trackReady) return;
+  playButton.disabled = true;
   try {
     await audio.play();
     overlay.hidden = true;
     decideButton.disabled = false;
-    setStatus("");
-  } catch {
-    promptForPlayback("ブラウザの再生制限により、ボタンを押して再生してください。");
+    status.textContent = "";
+  } catch (error) {
+    if (error.name === "NotAllowedError") {
+      promptForPlayback("ボタンを押して再生してください。", "再生開始");
+      return;
+    }
+    showLoadError(error);
   }
 }
 
-async function loadSection(index) {
-  const epoch = ++renderEpoch;
-  changing = true;
-  decideButton.disabled = true;
-  audio.pause();
-  renderer.clear();
+function showLoadError(error) {
+  console.error(error);
+  loadingFailed = true;
   trackReady = false;
-  phrases = [];
+  audio.pause();
+  promptForPlayback("楽曲または歌詞を読み込めませんでした。", "再読み込み");
+  status.textContent = error.message;
+}
 
-  const song = SONGS[index];
-  songNumber.textContent = `${index + 1} 曲目`;
-  initialSettings = createInitialSettings();
-  settings = { ...initialSettings };
-  createSettingsPanel(settingsContainer, settings, next => {
-    settings = next;
-  });
-  setStatus("楽曲と歌詞を読み込んでいます…");
-
+async function loadTrack(index) {
+  decideButton.disabled = true;
+  overlay.hidden = true;
+  loadingFailed = false;
+  status.textContent = "楽曲と歌詞を読み込んでいます…";
+  const song = session.songOrder[index];
   try {
-    // 両方の準備が整った時点で楽曲再生を試みる。
-    const lyricsPromise = loadLyrics(song.lyrics, assetPrefix);
+    if (!loadedLyrics.has(index)) {
+      loadedLyrics.set(index, await loadLyrics(song.lyrics, assetPrefix));
+    }
+    phrases = loadedLyrics.get(index);
+    try { await renderer.ensureFont(settings); }
+    catch (error) { console.warn("フォントの先読みができなかったため、代替書体で続行します", error); }
+    renderer.prepare(phrases, settings);
+    renderer.update(0, phrases, settings);
     audio.src = `${assetPrefix}/audio/${encodeURIComponent(song.wav)}`;
-    audio.load();
-    const audioPromise = new Promise((resolve, reject) => {
-      const onReady = () => { clean(); resolve(); };
-      const onError = () => { clean(); reject(new Error(`WAVを読み込めません: ${song.wav}`)); };
-      const clean = () => {
-        audio.removeEventListener("canplay", onReady);
-        audio.removeEventListener("error", onError);
-      };
-      audio.addEventListener("canplay", onReady, { once: true });
-      audio.addEventListener("error", onError, { once: true });
-      if (audio.readyState >= 3) onReady();
-    });
-    const [loaded] = await Promise.all([lyricsPromise, audioPromise]);
-    if (epoch !== renderEpoch) return;
-    phrases = loaded;
-    audio.currentTime = 0;
     trackReady = true;
-    changing = false;
-    setStatus(`歌詞読み込み: ${getLyricsEngine()}`);
-    // 最初の曲の開始時に全画面化を試行。拒否された場合はブラウザ制限。
-    if (index === 0) await tryFullscreen();
     await playCurrentSong();
   } catch (error) {
-    console.error(error);
-    promptForPlayback(`読み込みエラー: ${error.message}。public/audio と public/lyrics を確認してください。`);
-    playButton.hidden = true;
-    setStatus("ファイル読み込みに失敗しました");
+    showLoadError(error);
   }
 }
 
-async function finish() {
-  finished = true;
+function showCreation() {
+  const index = session.results.length;
+  showView("edit", `${index + 1} 曲目`, "決定");
+  editSettings(createInitialSettings());
+  return loadTrack(index);
+}
+
+function showReview() {
+  const index = session.impressions.length;
+  showView("review", `${index + 1} 曲目`, "次へ");
+  settings = session.results[index].finalSettings;
+  impression.value = "";
+  return loadTrack(index);
+}
+
+function finish() {
+  trackReady = false;
   audio.pause();
   cancelAnimationFrame(frameId);
-  setStatus("実験が終了しました。結果を送信しています…");
   if (window.opener && !window.opener.closed) {
-    window.opener.postMessage(
-      { type: "EXPERIMENT_FINISHED", sessionId, results },
-      location.origin
-    );
+    window.opener.postMessage({ type: "EXPERIMENT_FINISHED", sessionId }, location.origin);
     try { window.opener.focus(); } catch {}
+    window.close();
   }
-  // window.open で開かれた場合のみ閉じられます。
-  window.close();
-  songNumber.textContent = "実験終了";
-  overlay.hidden = false;
-  playButton.hidden = true;
-  playMessage.textContent = "5曲分の記録は保存されました。元の画面で結果をダウンロードしてください。このウィンドウは閉じてかまいません。";
+  // 同じタブで進めた場合や子ウィンドウを閉じられない場合も結果画面に戻る。
+  location.replace("./index.html");
 }
 
-async function decide() {
-  if (changing || finished || !trackReady || audio.paused) return;
-  changing = true;
+decideButton.addEventListener("click", async () => {
+  if (decideButton.disabled) return;
   decideButton.disabled = true;
-  const finalSettings = { ...settings };
-  if (finalSettings.movement === "無") {
-    finalSettings.direction = "適用なし";
-    finalSettings.easing = "適用なし";
+  if (view === "procedure") {
+    showPractice();
+    title.focus({ preventScroll: true });
+  } else if (view === "practice") {
+    session.practiceDone = true;
+    storeSession(sessionId, session);
+    void tryFullscreen();
+    await showCreation();
+  } else if (view === "edit") {
+    const index = session.results.length;
+    const finalSettings = { ...settings };
+    if (finalSettings.movement === "なし") {
+      finalSettings.direction = "適用なし";
+      finalSettings.easing = "適用なし";
+    }
+    if (finalSettings.rotation === "なし") finalSettings.rotationEasing = "適用なし";
+    session.results.push({
+      songNumber: index + 1,
+      wavFile: session.songOrder[index].wav,
+      initialSettings: { ...initialSettings },
+      finalSettings,
+      confirmedAt: new Date().toISOString()
+    });
+    storeSession(sessionId, session);
+    if (session.results.length === session.songOrder.length) {
+      showView("intro", "", "次へ");
+    } else {
+      await showCreation();
+    }
+  } else if (view === "intro") {
+    session.reviewStarted = true;
+    storeSession(sessionId, session);
+    await showReview();
+  } else if (view === "review") {
+    session.impressions.push(impression.value);
+    storeSession(sessionId, session);
+    if (session.impressions.length === session.songOrder.length) {
+      showView("survey", "実験全体を通しての質問");
+    } else {
+      await showReview();
+    }
   }
-  results.push({
-    songNumber: songIndex + 1,
-    wavFile: SONGS[songIndex].wav,
-    initialSettings: { ...initialSettings },
-    finalSettings,
-    confirmedAt: new Date().toISOString()
-  });
-  storeResults(sessionId, results);
-  audio.pause();
-  if (results.length === SONGS.length) {
-    await finish();
-  } else {
-    songIndex++;
-    await loadSection(songIndex);
-  }
-}
+});
 
-decideButton.addEventListener("click", decide);
-playButton.addEventListener("click", async () => {
-  if (!trackReady) return;
-  await tryFullscreen();
-  await playCurrentSong();
+survey.addEventListener("submit", event => {
+  event.preventDefault();
+  if (view !== "survey" || isSessionFinished(session)) return;
+  session.survey = Object.fromEntries(new FormData(survey));
+  storeSession(sessionId, session);
+  finish();
+});
+
+playButton.addEventListener("click", () => {
+  if (loadingFailed) {
+    const index = view === "review" ? session.impressions.length : session.results.length;
+    return loadTrack(index);
+  }
+  return playCurrentSong();
 });
 
 window.addEventListener("beforeunload", () => audio.pause());
 
 if (!sessionId || sessionId !== localStorage.getItem(CURRENT_SESSION_KEY)) {
-  songNumber.textContent = "実験の開始画面から操作してください";
-  setStatus("元のウィンドウの「開始」から開いてください。");
-} else if (results.length >= SONGS.length) {
+  showView("invalid", "実験の開始画面から操作してください");
+  status.textContent = "元のウィンドウの「開始」から開いてください。";
+} else if (isSessionFinished(session)) {
   finish();
 } else {
-  // 万一更新された場合は途中までの曲を保存済みデータから復元。
-  songIndex = results.length;
-  renderLoop();
-  await loadSection(songIndex);
-  // 新規ウィンドウ内の自動 requestFullscreen は大抵拒否されるため、
-  // 再生が拒否された場合は play-button の明示的なクリックで全画面化します。
-  if (audio.paused && trackReady && !overlay.hidden) {
-    setStatus("「全画面で再生開始」を押してください");
+  if (!session.songOrder) {
+    // 保存済みの制作結果は旧版の提示順と対応している。
+    session.songOrder = session.results.length > 0 ? [...SONGS] : shuffleSongs();
+    storeSession(sessionId, session);
+  }
+  frameId = requestAnimationFrame(renderLoop);
+  if (!session.practiceDone) {
+    showView("procedure", "実験の手順について", "テスト画面へ");
+  } else if (session.results.length < session.songOrder.length) {
+    await showCreation();
+  } else if (session.impressions.length === session.songOrder.length) {
+    showView("survey", "実験全体を通しての質問");
+  } else if (session.reviewStarted || session.impressions.length > 0) {
+    await showReview();
+  } else {
+    showView("intro", "", "次へ");
   }
 }

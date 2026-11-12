@@ -3,15 +3,15 @@ export const CHOICES = {
   font: ["明朝1", "明朝2", "ゴシック1", "ゴシック2", "筆書1", "筆書2", "ポップ", "ドット風"],
   textColor: ["黒", "白"],
   writing: ["横", "縦"],
-  fontSize: [12, 18, 24, 30],
-  jitter: [0, 10, 20, 30, 40],
-  split: ["文", "単語", "文字"],
-  movement: ["無", "有"],
+  fontSize: [12, 18, 24],
+  jitter: [0, 10, 20],
+  split: ["文", "文節", "文字"],
+  movement: ["なし", "あり"],
   direction: ["左から", "右から", "上から", "下から"],
-  easing: ["無", "有"],
-  opacity: [0, 25, 50, 75, 100],
-  scale: [100, 50, 0],
-  rotation: ["無", "有"],
+  easing: ["なし", "あり"],
+  opacity: [0, 100],
+  scale: [100, 0],
+  rotation: ["なし", "あり"],
   background: ["白", "黒", "赤", "黄", "青緑", "青", "ピンク"]
 };
 
@@ -24,9 +24,9 @@ export const LABELS = {
   split: "分割方法",
   movement: "移動",
   direction: "移動方向",
-  easing: "移動イージング",
-  opacity: "開始時不透明度",
-  scale: "開始時拡大率",
+  easing: "移動緩急",
+  opacity: "開始時の透明度",
+  scale: "開始時の拡大率",
   rotation: "開始時回転",
   background: "背景色"
 };
@@ -66,8 +66,8 @@ export function formatChoice(key, value) {
   if (value === "適用なし") return value;
   if (["fontSize", "jitter"].includes(key)) return key === "jitter" ? `最大${value}px` : `${value}px`;
   if (["opacity", "scale"].includes(key)) return `${value}%`;
-  if (key === "rotation" && value === "有") return "有（90度）";
-  if (key === "easing" && value === "有") return "有（quartOut）";
+  if (key === "rotation" && value === "あり") return "あり";
+  if (key === "easing" && value === "あり") return "あり";
   return String(value);
 }
 

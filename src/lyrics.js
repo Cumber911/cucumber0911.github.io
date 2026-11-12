@@ -58,7 +58,7 @@ function normalizeFromJSON(raw) {
 
 function normalizeFromAPI(video) {
   // TextAlive公式APIで構築された時間付き単位を取得。
-  // 各フレーズ内の単語・文字は時刻で割り当てます。
+  // 各フレーズ内の文節・文字は時刻で割り当てます。
   return video.phrases.map((p, phraseIndex) => {
     const words = video.words.filter(w =>
       w.startTime >= p.startTime - 1 && w.endTime <= p.endTime + 1
