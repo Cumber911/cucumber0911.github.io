@@ -176,6 +176,11 @@ textarea:focus-visible { outline: 3px solid #487be9; outline-offset: 3px; }
   border-width: 2px 2px 0 0;
   transform: translate(11px, -50%) rotate(45deg);
 }
+.procedure-attention {
+  margin: 10 10 clamp(16px, 3vh, 28px);
+  text-align: center;
+  font-size: clamp(17px, 2vw, 23px);
+}
 [data-view="procedure"] #decide {
   min-width: min(255px, 100%);
   max-width: 100%;
